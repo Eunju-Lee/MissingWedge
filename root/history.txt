@@ -1,6 +1,6 @@
 ﻿
 MissingWedge 
-(mw.c to .gcc)
+(mw.m to mw.c)
 
 IDE : Code Block
 Compiler : gcc
@@ -98,19 +98,33 @@ snr.c
 History
 
 --------------------------------------------------
+Date : 2016 .07 .14
+   - 특이사항 없음
+
+
+Date : 2016 .07 .15
+   - matlab 'coder' 명령을 통해 enhance.m 코드 이하 트리 c 코드로 변환
+   - matlab function '@()'로 인한 변환 실패 (unsupported function)
+   - '@()' function 제거 -> matlab code 수정 후 coder 실행
+   - coder을 통해 enhance.m 파일의 30라인까지 c 코드로 변환
+
+
 Date : 2016 .07 .18
-  - Window 시스템 GCC 컴파일러 개발환경 설정 
-  - IDE 설정
+   - Window 시스템 GCC 컴파일러 개발환경 설정 
+   - IDE 설정
+
 
 Date : 2016 .07 .19
 Edit - main.c  
         ㄴlinpng   
         ㄴradon transform   
 
+
 Date : 2016 .07 .20
    - ubuntu로 개발환경 변경
 Edit - main.c  
         ㄴimage read : libpng -> opencv 교체
+
    
 Date : 2016 .07 .21
 Edit - main.c  
