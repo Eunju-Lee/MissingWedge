@@ -14,10 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "rt_nonfinite.h"
 
-#include "rtwtypes.h"
-#include "enhance_types.h"
 
 /* Type Definitions */
 
@@ -28,6 +25,6 @@
 /* Variable Definitions */
 
 /* Function Declarations */
-extern void LineMask_limitedangleRange(real_T N, emxArray_real_T *M, emxArray_real_T *Mh, emxArray_real_T *mi, emxArray_real_T *mhi);
+extern void LineMask_limitedangleRange(double N, emxArray_real_T *M, emxArray_real_T *Mh, emxArray_real_T *mi, emxArray_real_T *mhi);
 #endif
 /* End of code generation (LineMask_limitedangleRange.h) */
