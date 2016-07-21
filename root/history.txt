@@ -1,4 +1,4 @@
-
+Ôªø
 MissingWedge 
 (mw.c to .gcc)
 
@@ -11,14 +11,14 @@ CALL TREE : List of files calling other files
 
 ----------------------------------------------
 main.c
- §§ enhance.c
-   §§ LineMask_limitedangleRange.c
-   §§ A_fhp.c
-   §§ RecPF_constraint.c
-     §§ snr.c
-   §§ daubcqf.c
-   §§ mdwt.c
-   §§ midwt.c
+ „Ñ¥ enhance.c
+   „Ñ¥ LineMask_limitedangleRange.c
+   „Ñ¥ A_fhp.c
+   „Ñ¥ RecPF_constraint.c
+     „Ñ¥ snr.c
+   „Ñ¥ daubcqf.c
+   „Ñ¥ mdwt.c
+   „Ñ¥ midwt.c
 ----------------------------------------------
 
 **********************************************
@@ -27,70 +27,70 @@ Require function
 
 ----------------------------------------------
 main.c 
-  §§image read
-  §§matrix to gray
-  §§reshape array
-  §§radon transform
-  §§inverse radon transform
-  §§recon
-  §§abs
-  §§image write
-  §§image display
+  „Ñ¥image read
+  „Ñ¥matrix to gray
+  „Ñ¥reshape array
+  „Ñ¥radon transform
+  „Ñ¥inverse radon transform
+  „Ñ¥recon
+  „Ñ¥abs
+  „Ñ¥image write
+  „Ñ¥image display
 
 enhance.c
-  §§reshape array
-  §§length
-  §§size (array dimension)
-  §§sqrt
-  §§FB(Frequency bandwidth ?)
-  §§false(Logical 0)
-  §§range(range of value)
+  „Ñ¥reshape array
+  „Ñ¥length
+  „Ñ¥size (array dimension)
+  „Ñ¥sqrt
+  „Ñ¥FB(Frequency bandwidth ?)
+  „Ñ¥false(Logical 0)
+  „Ñ¥range(range of value)
   
 LineMask_limitedangleRange.c
-  §§linspace(linearly spaced vector)
-  §§round
-  §§ifftshift
-  §§find (find indices and values of nonzero elements)
+  „Ñ¥linspace(linearly spaced vector)
+  „Ñ¥round
+  „Ñ¥ifftshift
+  „Ñ¥find (find indices and values of nonzero elements)
 
 A_fhp.c
-  §§fft2  
-  §§real
-  §§imag
+  „Ñ¥fft2  
+  „Ñ¥real
+  „Ñ¥imag
 
 RecPF_constraint.c
-  §§exist
-  §§error
-  §§nnz (number of nonzero matrix elements)
-  §§sign
-  §§max
-  §§Compute_Wx_Wy  ??
-  §§Compute_rhs_DxtU_DytU ??
-  §§Compute_Ux_Uy ??
-  §§Psi(polygamma function)
-  §§fft2
-  §§ifft2
-  §§PsiT
-  §§norm(vector and matrix norms)
+  „Ñ¥exist
+  „Ñ¥error
+  „Ñ¥nnz (number of nonzero matrix elements)
+  „Ñ¥sign
+  „Ñ¥max
+  „Ñ¥Compute_Wx_Wy  ??
+  „Ñ¥Compute_rhs_DxtU_DytU ??
+  „Ñ¥Compute_Ux_Uy ??
+  „Ñ¥Psi(polygamma function)
+  „Ñ¥fft2
+  „Ñ¥ifft2
+  „Ñ¥PsiT
+  „Ñ¥norm(vector and matrix norms)
   
 daubcqf.c
-  §§rem
-  §§sort
-  §§conv
-  §§sqrt
-  §§sum
-  §§fliplr
-  §§rot90
+  „Ñ¥rem
+  „Ñ¥sort
+  „Ñ¥conv
+  „Ñ¥sqrt
+  „Ñ¥sum
+  „Ñ¥fliplr
+  „Ñ¥rot90
 
 mdwt.c
-  §§omdwt
+  „Ñ¥omdwt
 
 midwt.c
-  §§omidwt
+  „Ñ¥omidwt
 
 snr.c
-  §§ref_save
-  §§sig
-  §§var
+  „Ñ¥ref_save
+  „Ñ¥sig
+  „Ñ¥var
 -------------------------------------------------
 
 *************************************************
@@ -99,28 +99,28 @@ History
 
 --------------------------------------------------
 Date : 2016 .07 .18
-  - Window Ω√Ω∫≈€ GCC ƒƒ∆ƒ¿œ∑Ø ∞≥πﬂ»Ø∞Ê º≥¡§ 
-  - IDE º≥¡§
+  - Window ÏãúÏä§ÌÖú GCC Ïª¥ÌååÏùºÎü¨ Í∞úÎ∞úÌôòÍ≤Ω ÏÑ§Ï†ï 
+  - IDE ÏÑ§Ï†ï
 
 Date : 2016 .07 .19
 Edit - main.c  
-        §§linpng   
-        §§radon transform   
+        „Ñ¥linpng   
+        „Ñ¥radon transform   
 
 Date : 2016 .07 .20
-   - ubuntu∑Œ ∞≥πﬂ»Ø∞Ê ∫Ø∞Ê
+   - ubuntuÎ°ú Í∞úÎ∞úÌôòÍ≤Ω Î≥ÄÍ≤Ω
 Edit - main.c  
-        §§image read : libpng -> opencv ±≥√º
+        „Ñ¥image read : libpng -> opencv ÍµêÏ≤¥
    
 Date : 2016 .07 .21
 Edit - main.c  
-        §§image read 
-        §§matrix to gray
-        §§reshape array
+        „Ñ¥image read 
+        „Ñ¥matrix to gray
+        „Ñ¥reshape array
 	
        LineMask_limitedangleRange.c
- 	§§linspace(linearly spaced vector)
-  	§§round
+ 	„Ñ¥linspace(linearly spaced vector)
+  	„Ñ¥round
 --------------------------------------------------
 
 
