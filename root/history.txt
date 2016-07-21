@@ -1,0 +1,160 @@
+
+MissingWedge 
+(mw.c to .gcc)
+
+IDE : Code Block
+Compiler : gcc
+
+*********************************************
+
+CALL TREE : List of files calling other files
+
+----------------------------------------------
+main.c
+ い enhance.c
+   い LineMask_limitedangleRange.c
+   い A_fhp.c
+   い RecPF_constraint.c
+     い snr.c
+   い daubcqf.c
+   い mdwt.c
+   い midwt.c
+----------------------------------------------
+
+**********************************************
+
+Require function
+
+----------------------------------------------
+main.c 
+  いimage read
+  いmatrix to gray
+  いreshape array
+  いradon transform
+  いinverse radon transform
+  いrecon
+  いabs
+  いimage write
+  いimage display
+
+enhance.c
+  いreshape array
+  いlength
+  いsize (array dimension)
+  いsqrt
+  いFB(Frequency bandwidth ?)
+  いfalse(Logical 0)
+  いrange(range of value)
+  
+LineMask_limitedangleRange.c
+  いlinspace(linearly spaced vector)
+  いround
+  いifftshift
+  いfind (find indices and values of nonzero elements)
+
+A_fhp.c
+  いfft2  
+  いreal
+  いimag
+
+RecPF_constraint.c
+  いexist
+  いerror
+  いnnz (number of nonzero matrix elements)
+  いsign
+  いmax
+  いCompute_Wx_Wy  ??
+  いCompute_rhs_DxtU_DytU ??
+  いCompute_Ux_Uy ??
+  いPsi(polygamma function)
+  いfft2
+  いifft2
+  いPsiT
+  いnorm(vector and matrix norms)
+  
+daubcqf.c
+  いrem
+  いsort
+  いconv
+  いsqrt
+  いsum
+  いfliplr
+  いrot90
+
+mdwt.c
+  いomdwt
+
+midwt.c
+  いomidwt
+
+snr.c
+  いref_save
+  いsig
+  いvar
+-------------------------------------------------
+
+*************************************************
+
+History
+
+--------------------------------------------------
+Date : 2016 .07 .18
+  - Window 獣什奴 GCC 陳督析君 鯵降発井 竺舛 
+  - IDE 竺舛
+
+Date : 2016 .07 .19
+Edit - main.c  
+        いlinpng   
+        いradon transform   
+
+Date : 2016 .07 .20
+   - ubuntu稽 鯵降発井 痕井
+Edit - main.c  
+        いimage read : libpng -> opencv 嘘端
+   
+Date : 2016 .07 .21
+Edit - main.c  
+        いimage read 
+        いmatrix to gray
+        いreshape array
+	
+       LineMask_limitedangleRange.c
+ 	いlinspace(linearly spaced vector)
+  	いround
+--------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
