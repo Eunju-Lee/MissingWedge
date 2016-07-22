@@ -135,6 +135,18 @@ Edit - main.c
        LineMask_limitedangleRange.c
  	ㄴlinspace(linearly spaced vector)
   	ㄴround
+
+Date : 2016 .07 .22
+Edit - enhance.c 
+ 	ㄴreshape
+ 	ㄴlength
+
+       LineMask_limitedangleRange.c
+ 	ㄴlinspace(linearly spaced vector)
+ 	ㄴround
+ 	ㄴzeros
+ 	ㄴifftshift
+
 --------------------------------------------------
 
 
