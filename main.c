@@ -9,6 +9,7 @@ int main()
 {
 
     int m = 256, n = 256;
+
     //Read the .png image
     IplImage *image = cvLoadImage("sample.png");
 
