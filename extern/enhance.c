@@ -2,22 +2,12 @@
 #include "enhance.h"
 #include "LineMask_limitedangleRange.h"
 #include "A_fhp.h"
-typedef struct opts{
-
-    double maxItr;
-    double gamma;
-    double beta;
-    double relchg_tol;
-    char real_sol;
-    char normalize;
-
-}OPTS;
 
 
 
 IplImage* enhance(IplImage *image, int n, double m_iter, double m_gamma, double m_beta, double m_tol, double m_aTV, double m_aL1)
 {
-    OPTS opts;
+    struct OPTS opts;
   // matlab code : constraint = 1;  x = reshape(I,n*n,1); L   = 199;
   //[M,Mh,mi,mhi] = LineMask_limitedangleRange(L,n);
   IplImage *x = cvCreateImage(cvSize(n,n), 8, 1);
@@ -60,10 +50,10 @@ IplImage* enhance(IplImage *image, int n, double m_iter, double m_gamma, double 
     double aTV = m_aTV;
     double aL1 = m_aL1;
 
-    CvMat *wav, w;
+    CvMat *wav, *W;
     daubcqf(4, &wav);
 
-    midwt(x,wav,&w);
+    midwt(x,wav,&W);
 //  mdwt(x,wav, &w);
 
     opts.maxItr = m_iter;
@@ -72,7 +62,7 @@ IplImage* enhance(IplImage *image, int n, double m_iter, double m_gamma, double 
     opts.relchg_tol = 1;
     opts.normalize = 1;
 
-    CvMat * pick ;
+    CvMat * pick ,*B, *WT;
     cvSetZero(pick);        //pick = false(m,n);
 
     //pick(picks)=true;
@@ -81,7 +71,7 @@ IplImage* enhance(IplImage *image, int n, double m_iter, double m_gamma, double 
     int m=256;
 
 
-    //RecPF_constraint(m,n,aTV, aL1,pick,B,2,opts,WT,W,range,I,constraint, &U);
+    RecPF_constraint(m,n,aTV, aL1,pick,B,2, opts.maxItr, WT, W,range,image,constraint, &U);
 
 
   }
