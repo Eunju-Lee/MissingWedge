@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <cv.h>
 #include <math.h>
-#include "RecPF_constraint.h"
-#include "enhance.h"
+//#include "RecPF_constraint.h"
+//#include "enhance.h"
 
 void RecPF_constraint(int m,int n,double aTV, double aL1,CvMat* picks,CvMat* B,
                       int TVtype,/*struct OPTS* st*/double aa ,CvMat* PsiT,CvMat* Psi,int range,IplImage* I,int constraint, CvMat* U)
@@ -10,12 +10,15 @@ void RecPF_constraint(int m,int n,double aTV, double aL1,CvMat* picks,CvMat* B,
 
     int bPrint = 0;
     int bComplex = 1;
-
+    double fctr = 1/range;
     cvSetZero(U);
+
+ //   CvMat* Ux, *Uy;
+
 
     if(/*OPTS.normalize == 1*/1) //true
     {
-        double fctr = 1/range;
+
         //B = fctr*B
         int j,i;
         for(j = 1; j<B->cols; j++){
@@ -83,7 +86,9 @@ void RecPF_constraint(int m,int n,double aTV, double aL1,CvMat* picks,CvMat* B,
     double MaxItr;
     double beta = 2.0;
     int ii;
-    CvMat* Wx,Wy;
+    CvMat* Wx, *Wy;
+    CvMat* rhs, *Z;
+    CvMat* blank, *fft2_U, *fft2_rhs;
 
         for(ii =0; ii<MaxItr; ii++){
 
@@ -122,7 +127,7 @@ void RecPF_constraint(int m,int n,double aTV, double aL1,CvMat* picks,CvMat* B,
                 }
 
             }
-            CvMat* rhs, *Z;
+
             Compute_rhs_DxtU_DytU(Wx, Wy, bx, by, aTV*beta, &rhs);
 
         if(aL1 > 0){
@@ -138,7 +143,7 @@ void RecPF_constraint(int m,int n,double aTV, double aL1,CvMat* picks,CvMat* B,
             cvmAdd(rhs, d_penalty, rhs);
         }
         //fft2_U = (Numer1 + fft2(rhs))./Denom;    cvFFT(image,image, 0,0);
-        CvMat* blank, *fft2_U, *fft2_rhs;
+
         cvFFT(rhs, fft2_rhs, 0, 0);
         cvFFT(rhs, rhs, 0, 0);
         cvmAdd(Numer1, rhs, blank);
@@ -158,13 +163,45 @@ void RecPF_constraint(int m,int n,double aTV, double aL1,CvMat* picks,CvMat* B,
 
             }
         }
-        CvMat* Ux, *Uy;
+
         Compute_Ux_Uy(U, &Ux, &Uy);
 
+        //relchg = norm(U-Uprev,'fro')/norm(u,'fro')
+        // -> sqrt(sum(diag(U-Uprev' * U-Uprev)))
+
+        int gamma = 2.0;
+        for(j = 1; j < Ux->cols; j++){
+           for(i = 1; i <Ux->rows; i++){
+
+           cvmSet(bx,i,j,cvmGet(bx,i,j) + gamma * (cvmGet(Ux, i, j)-cvmGet(Wx, i, j)));
+           cvmSet(by,i,j,cvmGet(by,i,j) + gamma * (cvmGet(Uy, i, j)-cvmGet(Wy, i, j)));
+
+           }
+        }
+
+        if(aL1>0){
+            for(j = 1; j < PsiTU->cols; j++){
+               for(i = 1; i <PsiTU->rows; i++){
+                cvmSet(d,i,j,cvmGet(d,i,j) + gamma * (cvmGet(PsiTU, i, j)-cvmGet(Z, i, j)));
+                }
+            }
+        }
 
 
     }//for
 
+
+    int normalize = 1;
+
+    if(normalize){
+
+        printf("normalize.\n");
+        for(j = 1; j < U->cols; j++){
+            for(i = 1; i <U->rows; i++){
+                cvmSet(U,i,j,cvmGet(U,i,j)/fctr);
+            }
+        }
+    }
 
     cvReleaseMat(&PsiTU);
     cvReleaseMat(&Numer1);
