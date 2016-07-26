@@ -67,8 +67,9 @@ IplImage* enhance(IplImage *image, int n, double m_iter, double m_gamma, double 
 
     //pick(picks)=true;
     int range = cM;
-    IplImage * U = cvCreateImage(cvGetSize(image),8,1);
-    int m=256;
+    int m = 256;
+    CvMat * U = cvCreateMat(m,n,CV_32FC1);
+ //   int m=256;
 
 
     RecPF_constraint(m,n,aTV, aL1,pick,B,2, opts.maxItr, WT, W,range,image,constraint, &U);

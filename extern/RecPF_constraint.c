@@ -5,7 +5,7 @@
 #include "enhance.h"
 
 void RecPF_constraint(int m,int n,double aTV, double aL1,CvMat* picks,CvMat* B,
-                      int TVtype,/*struct OPTS* st*/double aa ,CvMat* WT,CvMat* W,int range,IplImage* I,int constraint, IplImage* U)
+                      int TVtype,/*struct OPTS* st*/double aa ,CvMat* PsiT,CvMat* Psi,int range,IplImage* I,int constraint, CvMat* U)
 {
 
     int bPrint = 0;
@@ -122,6 +122,44 @@ void RecPF_constraint(int m,int n,double aTV, double aL1,CvMat* picks,CvMat* B,
                 }
 
             }
+            CvMat* rhs, *Z;
+            Compute_rhs_DxtU_DytU(Wx, Wy, bx, by, aTV*beta, &rhs);
+
+        if(aL1 > 0){
+
+            for(j = 1; j<Psi->cols; j++){
+                for(i = 1; i<Psi->rows; i++){
+
+                    cvmSet(Psi, i, j, cvmGet(Z, i, j) - cvmGet(d, i, j));
+                    double element = cvmGet(Psi, i, j) * aL1* beta;
+                    cvmSet(d_penalty, i, j, element);
+                }
+            }
+            cvmAdd(rhs, d_penalty, rhs);
+        }
+        //fft2_U = (Numer1 + fft2(rhs))./Denom;    cvFFT(image,image, 0,0);
+        CvMat* blank, *fft2_U, *fft2_rhs;
+        cvFFT(rhs, fft2_rhs, 0, 0);
+        cvFFT(rhs, rhs, 0, 0);
+        cvmAdd(Numer1, rhs, blank);
+        for(j = 1; j<Numer1->cols; j++){
+            for(i = 1; i<Numer1->rows; i++){
+                cvmSet(fft2_U, i, j, cvmGet(blank, i, j)/cvmGet(Denom, i, j));
+            }
+        }
+        cvDFT(fft2_U,U,CV_DXT_INVERSE,0);
+        cvReleaseMat(&blank);
+
+        if(aL1 > 0){
+            for(j = 1; U < Numer1->cols; j++){
+                for(i = 1; U <Numer1->rows; i++){
+                cvmSet(PsiTU,i,j,cvmGet(U,i,j));
+                }
+
+            }
+        }
+        CvMat* Ux, *Uy;
+        Compute_Ux_Uy(U, &Ux, &Uy);
 
 
 
