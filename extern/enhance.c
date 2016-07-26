@@ -1,79 +1,98 @@
 /* Include files */
 #include "enhance.h"
-#include "LineMask_limitedangleRange.h"
-#include "A_fhp.h"
 
 
-
-IplImage* enhance(IplImage *image, int n, double m_iter, double m_gamma, double m_beta, double m_tol, double m_aTV, double m_aL1)
+void enhance(IplImage *image, int n, double m_iter, double m_gamma, double m_beta,
+                    double m_tol, double m_aTV, double m_aL1, CvMat* U)
 {
-    struct OPTS opts;
-  // matlab code : constraint = 1;  x = reshape(I,n*n,1); L   = 199;
-  //[M,Mh,mi,mhi] = LineMask_limitedangleRange(L,n);
+    struct OPTS opts_para;
+
+  /*
+    matlab code : constraint = 1;  x = reshape(I,n*n,1); L   = 199;
+                  [M,Mh,mi,mhi] = LineMask_limitedangleRange(L,n);
+  */
   IplImage *x = cvCreateImage(cvSize(n,n), 8, 1);
   cvResize(image,x, 0);
 
    int constraint = 1;
    int L = 199;
 
-   CvMat * M, Mh, mi, mhi;
+   CvMat * M, *Mh, *mi, *mhi;
 
-   LineMask_limitedandleTange(image, L,n, &M, &Mh, &mi, &mhi);
+   LineMask_limitedandleTange(L,n, &M, &Mh, &mi, &mhi);
 
-    CvMat OMEGA = mhi;
-    int k = mhi.cols * mhi.rows;    //length(mhi)
+    CvMat *OMEGA = cvCreateMat(mhi->rows,mhi->cols,CV_32FC1);
+    cvmCopy(mhi, OMEGA);
+
+    int k;
+    if(OMEGA->rows > OMEGA->cols){   //number of vector element?
+        k= OMEGA->rows;
+    }
+    else k= OMEGA->cols;
 
     CvMat *b;
-    b = A_fhp(x, &OMEGA);
+    A_fhp(x, OMEGA, &b);
 
-    //OMEGA = [1;OMEGA]
-    b->data.fl[1] = 1;
-    //b->data.fl[2] = OMEGA;
-    //pick = OMEGA
-
+    CvMat *picks = cvCreateMat(OMEGA->rows, OMEGA->cols, CV_32FC1);
+    cvmCopy(OMEGA,picks);
 
     int cM, cN, p, o;
-    cM = image->width;
-    cN = image->height;
-    IplImage * FB;
+    IplImage *FB = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U, 1);
+    IplImage *F = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U, 1);
+    cvCopy(image,F,0);
 
-    cvFFT(image,image, 0,0);
-    for(p = 0; p<image->width; p++){
-        for(o=0; o<image->height; o++){
+    cM = F->width;
+    cN = F->height;
 
-            FB->imageData[o+p*image->widthStep] = image->imageData[o+p*image->widthStep] * sqrt(cM*cN);
+    cvFFT(F,F, 0,0);
+    for(p = 0; p<F->width; p++){
+        for(o=0; o<F->height; o++){
+            FB->imageData[o+p*FB->widthStep] = F->imageData[o+p*F->widthStep] * sqrt(cM*cN);
         }
     }
 
-    //B=FB(Picks);
+   //IplImage to CvMat
+    CvMat matHader, *FB_Mat;
+    FB_Mat = cvGetMat(FB,&matHader,0,0);
+
+    //B=FB(Picks); edit
+    //WT = []; W=[];
 
     double aTV = m_aTV;
     double aL1 = m_aL1;
 
-    CvMat *wav, *W;
+    CvMat *wav, *W, *WT;
     daubcqf(4, &wav);
 
     midwt(x,wav,&W);
-//  mdwt(x,wav, &w);
+    mdwt(x,wav, &WT);
 
-    opts.maxItr = m_iter;
-    opts.gamma = m_gamma;
-    opts.beta = m_beta;
-    opts.relchg_tol = 1;
-    opts.normalize = 1;
+    opts_para.maxItr = m_iter;
+    opts_para.gamma = m_gamma;
+    opts_para.beta = m_beta;
+    opts_para.relchg_tol = 1;
+    opts_para.normalize = 1;
 
-    CvMat * pick ,*B, *WT;
+    CvMat * pick ,*B;
     cvSetZero(pick);        //pick = false(m,n);
-
     //pick(picks)=true;
-    int range = cM;
+
+    double min, max;
+    cvMinMaxLoc(image,&min,&max, 0,0,0);
+
+    double range = max -min; //difference between the maximun and the minimum of a I
     int m = 256;
-    CvMat * U = cvCreateMat(m,n,CV_32FC1);
- //   int m=256;
+
+    RecPF_constraint(m,n,aTV, aL1,pick,B,2, opts_para, WT, W,range,image,constraint, &U);
 
 
-    RecPF_constraint(m,n,aTV, aL1,pick,B,2, opts.maxItr, WT, W,range,image,constraint, &U);
-
+    cvReleaseMat(&picks);
+    cvReleaseMat(&FB_Mat);
+    cvReleaseMat(&wav);
+    cvReleaseMat(&W);
+    cvReleaseMat(&WT);
+    cvReleaseImage(&FB);
+    cvReleaseImage(&F);
 
   }
 
